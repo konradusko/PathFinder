@@ -1,9 +1,9 @@
 class Square {
-    constructor(x, y,width,height) {
+    constructor(x, y,sqr) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = sqr;
+        this.height = sqr;
     }
     draw(){
         ctx.beginPath();
@@ -16,4 +16,13 @@ class Clear extends Square{
         ctx.clearRect(this.x,this.y,this.width,this.height);
     }
 
+}
+class FillSquare extends Square{
+    clear(){
+        ctx.clearRect(this.x,this.y,this.width,this.height);
+    }
+    draw(){
+        ctx.fillStyle = this.style;
+        ctx.fillRect(this.x,this.y,this.width,this.height);
+    };
 }
