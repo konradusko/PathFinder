@@ -1,28 +1,17 @@
-class Square {
-    constructor(x, y,sqr) {
-        this.x = x;
-        this.y = y;
-        this.width = sqr;
-        this.height = sqr;
-    }
-    draw(){
-        ctx.beginPath();
-        ctx.rect(this.x,this.y,this.width,this.height);
-        ctx.stroke();
+class Draw {
+    drawEmptySquare() {
+        this.ctx.beginPath();
+        this.ctx.rect(this.x* game.oneSquare, this.y* game.oneSquare, this.width, this.height);
+        this.ctx.stroke();
     };
-}
-class Clear extends Square{
-    clear(){
-        ctx.clearRect(this.x,this.y,this.width,this.height);
+    clear() {
+        console.log("clearuje")
+        this.ctx.clearRect(this.x * game.oneSquare, this.y * game.oneSquare, this.width, this.height);
     }
-
-}
-class FillSquare extends Square{
-    clear(){
-        ctx.clearRect(this.x,this.y,this.width,this.height);
+    drawSquare(){
+        this.ctx.beginPath();
+        this.ctx.fillStyle = this.color;
+        this.ctx.fillRect(this.x * game.oneSquare, this.y*game.oneSquare, this.width -1, this.height-1);
+        this.ctx.stroke();
     }
-    draw(){
-        ctx.fillStyle = this.style;
-        ctx.fillRect(this.x,this.y,this.width,this.height);
-    };
 }
