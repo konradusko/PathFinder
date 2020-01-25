@@ -5,10 +5,8 @@ function core() {
     let endInGrid = search(game.endPosition.x, game.endPosition.y, game.grid);
     endInGrid.h = 0;
     endInGrid.g = undefined;
-    gAndh([endInGrid], 1);
-    // gAndh([endInGrid],2);
-    console.log(game.grid)
-    console.log(endInGrid)
+    gAndh([stInGrid], 1);
+    gAndh([endInGrid], 2);
 }
 
 function check(arr, numb) {
@@ -25,218 +23,120 @@ function check(arr, numb) {
     }
 }
 
-function gAndh(node, numb) {
+function gAndh(nod, number) {
+    let node = nod;
+    // console.log(node)
+    const numb = number;
     let sqr = game.square;
-    let xd = game.draw;
     let int = setInterval(() => {
-        console.log(node)
-        node.forEach(e => {
+        if (node.length != 0) {
+            node.forEach(e => {
+                if (check(game.grid, numb)) {
+                    //numb 1 ==g
+                    if (numb == 1 && search(e.x + sqr, e.y, game.grid) != undefined &&
+                        search(e.x + sqr, e.y, game.grid).g === undefined) {
+                        search(e.x + sqr, e.y, game.grid).g = e.g + 10;
+                    } else if (search(e.x + sqr, e.y, game.grid) != undefined &&
+                        search(e.x + sqr, e.y, game.grid).h === undefined && numb == 2) {
+                        search(e.x + sqr, e.y, game.grid).h = e.h + 10;
+                    }
 
-            // console.log(pkt)
-            if (check(game.grid, numb)) {
-                //numb 1 ==g
-                if (numb == 1 && search(e.x + sqr, e.y, game.grid) != undefined &&
-                    search(e.x + sqr, e.y, game.grid).g === undefined) {
-                    search(e.x + sqr, e.y, game.grid).g = e.g + 10;
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("black");
-                } else if (numb == 2 && search(e.x + sqr, e.y, game.grid) != undefined &&
-                    search(e.x + sqr, e.y, game.grid).h === undefined) {
-                    search(e.x + sqr, e.y, game.grid).h = e.h + 10;
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("yellow");
-                }
-                //  if(search(e.x + sqr, e.y, game.grid)!= undefined&&
-                //  search(e.x + sqr, e.y, game.grid).g===undefined){
-                //      search(e.x + sqr, e.y, game.grid).g = e.g + 10;
-                //      xd.x = e.x + sqr;
-                //      xd.y = e.y;
-                //      xd.drawSquare("yellow");
-                //      //
-                //  }
-                if (numb == 1 && search(e.x - sqr, e.y, game.grid) != undefined &&
-                    search(e.x - sqr, e.y, game.grid).g === undefined) {
-                    search(e.x - sqr, e.y, game.grid).g = e.g + 10;
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("yellow");
-                } else if (numb == 2 && search(e.x - sqr, e.y, game.grid) != undefined &&
-                    search(e.x - sqr, e.y, game.grid).h === undefined) {
-                    search(e.x - sqr, e.y, game.grid).h = e.h + 10;
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("yellow");
-                }
+                    if (numb == 1 && search(e.x - sqr, e.y, game.grid) != undefined &&
+                        search(e.x - sqr, e.y, game.grid).g === undefined) {
+                        search(e.x - sqr, e.y, game.grid).g = e.g + 10;
+                    } else if (numb == 2 && search(e.x - sqr, e.y, game.grid) != undefined &&
+                        search(e.x - sqr, e.y, game.grid).h === undefined) {
+                        search(e.x - sqr, e.y, game.grid).h = e.h + 10;
+                    }
+
+                    if (numb == 1 && search(e.x, e.y - sqr, game.grid) != undefined &&
+                        search(e.x, e.y - sqr, game.grid).g === undefined) {
+                        search(e.x, e.y - sqr, game.grid).g = e.g + 10;
+                    } else if (search(e.x, e.y - sqr, game.grid) != undefined &&
+                        search(e.x, e.y - sqr, game.grid).h === undefined && numb == 2) {
+                        search(e.x, e.y - sqr, game.grid).h = e.h + 10;
+                    }
+
+                    if (numb == 1 && search(e.x, e.y + sqr, game.grid) != undefined &&
+                        search(e.x, e.y + sqr, game.grid).g === undefined) {
+                        search(e.x, e.y + sqr, game.grid).g = e.g + 10;
+                    } else if (search(e.x, e.y + sqr, game.grid) != undefined &&
+                        search(e.x, e.y + sqr, game.grid).h === undefined && numb == 2) {
+                        search(e.x, e.y + sqr, game.grid).h = e.h + 10;
+                    }
 
 
+                    if (search(e.x + sqr, e.y + sqr, game.grid) != undefined &&
+                        search(e.x + sqr, e.y + sqr, game.grid).g === undefined && numb == 1) {
+                        search(e.x + sqr, e.y + sqr, game.grid).g = e.g + 14;
+                        node.push(search(e.x + sqr, e.y + sqr, game.grid))
+                    } else if (search(e.x + sqr, e.y + sqr, game.grid) != undefined &&
+                        search(e.x + sqr, e.y + sqr, game.grid).h === undefined && numb == 2) {
+                        search(e.x + sqr, e.y + sqr, game.grid).h = e.h + 14;
+                        node.push(search(e.x + sqr, e.y + sqr, game.grid))
+                    }
 
-                //  if(search(e.x - sqr, e.y, game.grid)!= undefined&&
-                //  search(e.x - sqr, e.y, game.grid).g===undefined){
-                //      search(e.x - sqr, e.y, game.grid).g = e.g + 10;
-                //      xd.x = e.x - sqr;
-                //      xd.y = e.y;
-                //      xd.drawSquare("yellow");
-                //  }
-                if (numb == 1 && search(e.x, e.y - sqr, game.grid) != undefined &&
-                    search(e.x, e.y - sqr, game.grid).g === undefined) {
-                    search(e.x, e.y - sqr, game.grid).g = e.g + 10;
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("yellow");
-                } else if (numb == 2 && search(e.x, e.y - sqr, game.grid) != undefined &&
-                    search(e.x, e.y - sqr, game.grid).h === undefined) {
-                    search(e.x, e.y - sqr, game.grid).h = e.h + 10;
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("yellow");
-                }
-                //  if(search(e.x, e.y - sqr, game.grid)!= undefined&&
-                //  search(e.x, e.y - sqr, game.grid).g===undefined){
-                //      search(e.x, e.y - sqr, game.grid).g = e.g + 10;
-                //      xd.x = e.x;
-                //      xd.y = e.y - sqr;
-                //      xd.drawSquare("yellow");
-                //  }
-                if (numb == 1 && search(e.x, e.y + sqr, game.grid) != undefined &&
-                    search(e.x, e.y + sqr, game.grid).g === undefined) {
-                    search(e.x, e.y + sqr, game.grid).g = e.g + 10;
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("yellow");
-                } else if (numb == 2 && search(e.x, e.y + sqr, game.grid) != undefined &&
-                    search(e.x, e.y + sqr, game.grid).h === undefined) {
-                    search(e.x, e.y + sqr, game.grid).h = e.h + 10;
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("yellow");
-                }
-                //  if(search(e.x, e.y + sqr, game.grid)!= undefined&&
-                //  search(e.x, e.y + sqr, game.grid).g===undefined){
-                //      search(e.x, e.y + sqr, game.grid).g = e.g + 10;
-                //      xd.x = e.x;
-                //      xd.y = e.y + sqr;
-                //      xd.drawSquare("yellow");
-                //  }
+                    if (search(e.x + sqr, e.y - sqr, game.grid) != undefined &&
+                        search(e.x + sqr, e.y - sqr, game.grid).g === undefined && numb == 1) {
+                        search(e.x + sqr, e.y - sqr, game.grid).g = e.g + 14;
+                        node.push(search(e.x + sqr, e.y - sqr, game.grid))
+                    } else if (search(e.x + sqr, e.y - sqr, game.grid) != undefined &&
+                        search(e.x + sqr, e.y - sqr, game.grid).h === undefined && numb == 2) {
+                        search(e.x + sqr, e.y - sqr, game.grid).h = e.h + 14;
+                        node.push(search(e.x + sqr, e.y - sqr, game.grid))
+                    }
 
-                if (numb == 1 && search(e.x + sqr, e.y + sqr, game.grid) != undefined &&
-                    search(e.x + sqr, e.y + sqr, game.grid).g === undefined) {
-                    search(e.x + sqr, e.y + sqr, game.grid).g = e.g + 14;
-                    node.push(search(e.x + sqr, e.y + sqr, game.grid));
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("red");
-                } else if (numb == 2 && search(e.x + sqr, e.y + sqr, game.grid) != undefined &&
-                    search(e.x + sqr, e.y + sqr, game.grid).h === undefined) {
-                    search(e.x + sqr, e.y + sqr, game.grid).h = e.h + 14;
-                    node.push(search(e.x + sqr, e.y + sqr, game.grid));
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("red");
+                    if (search(e.x - sqr, e.y - sqr, game.grid) != undefined &&
+                        search(e.x - sqr, e.y - sqr, game.grid).g === undefined && numb == 1) {
+                        search(e.x - sqr, e.y - sqr, game.grid).g = e.g + 14;
+                        node.push(search(e.x - sqr, e.y - sqr, game.grid))
+                    } else if (search(e.x - sqr, e.y - sqr, game.grid) != undefined &&
+                        search(e.x - sqr, e.y - sqr, game.grid).h === undefined && numb == 2) {
+                        search(e.x - sqr, e.y - sqr, game.grid).h = e.h + 14;
+                        node.push(search(e.x - sqr, e.y - sqr, game.grid))
+                    }
+
+                    if (search(e.x - sqr, e.y + sqr, game.grid) != undefined &&
+                        search(e.x - sqr, e.y + sqr, game.grid).g === undefined && numb == 1) {
+                        search(e.x - sqr, e.y + sqr, game.grid).g = e.g + 14;
+                        node.push(search(e.x - sqr, e.y + sqr, game.grid))
+                    } else if (search(e.x - sqr, e.y + sqr, game.grid) != undefined &&
+                        search(e.x - sqr, e.y + sqr, game.grid).h === undefined && numb == 2) {
+                        search(e.x - sqr, e.y + sqr, game.grid).h = e.h + 14;
+                        node.push(search(e.x - sqr, e.y + sqr, game.grid))
+                    }
+
+                } else {
+                    node.splice(node.indexOf(search(e.x, e.y, node)), 1);
                 }
 
-                //  if(search(e.x + sqr, e.y + sqr, game.grid)!= undefined&&
-                //  search(e.x + sqr, e.y + sqr, game.grid).g===undefined){
-                //      search(e.x + sqr, e.y + sqr, game.grid).g = e.g + 14;
-                //      node.push(search(e.x + sqr, e.y + sqr, game.grid))
-                //      xd.x = e.x + sqr;
-                //      xd.y = e.y + sqr;
-                //      xd.drawSquare("orange");
-                //  }
-                if (numb == 1 && search(e.x + sqr, e.y - sqr, game.grid) != undefined &&
-                    search(e.x + sqr, e.y - sqr, game.grid).g === undefined) {
-                    search(e.x + sqr, e.y - sqr, game.grid).g = e.g + 14;
-                    node.push(search(e.x + sqr, e.y + sqr, game.grid));
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("red");
-                } else if (numb == 2 && search(e.x + sqr, e.y - sqr, game.grid) != undefined &&
-                    search(e.x + sqr, e.y - sqr, game.grid).h === undefined) {
-                    search(e.x + sqr, e.y - sqr, game.grid).h = e.h + 14;
-                    node.push(search(e.x + sqr, e.y - sqr, game.grid));
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("red");
+            });
+            let node2 = [];
+            let lastindx = node[node.length - 1];
+            for (let i = 0; i < node.length; i++) {
+                if (numb == 1) {
+                    if (node[i].g == lastindx.g) {
+                        node2.push(node[i])
+                    }
+                } else if (numb == 2) {
+                    if (node[i].h == lastindx.h) {
+                        node2.push(node[i])
+                    }
                 }
-                //  if(search(e.x + sqr, e.y - sqr, game.grid)!= undefined&&
-                //  search(e.x + sqr, e.y - sqr, game.grid).g===undefined){
-                //      search(e.x + sqr, e.y - sqr, game.grid).g = e.g + 14;
-                //      node.push(search(e.x + sqr, e.y - sqr, game.grid))
-                //      xd.x = e.x + sqr;
-                //      xd.y = e.y - sqr;
-                //      xd.drawSquare("orange");
-                //  }
-                if (numb == 1 && search(e.x - sqr, e.y - sqr, game.grid) != undefined &&
-                    search(e.x - sqr, e.y - sqr, game.grid).g === undefined) {
-                    search(e.x - sqr, e.y - sqr, game.grid).g = e.g + 14;
-                    node.push(search(e.x + sqr, e.y + sqr, game.grid));
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("red");
-                } else if (numb == 2 && search(e.x - sqr, e.y - sqr, game.grid) != undefined &&
-                    search(e.x - sqr, e.y - sqr, game.grid).h === undefined) {
-                    search(e.x - sqr, e.y - sqr, game.grid).h = e.h + 14;
-                    node.push(search(e.x - sqr, e.y - sqr, game.grid));
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("red");
-                }
-                //  if(search(e.x - sqr, e.y - sqr, game.grid)!= undefined&&
-                //  search(e.x - sqr, e.y - sqr, game.grid).g===undefined){
-                //      search(e.x - sqr, e.y - sqr, game.grid).g = e.g + 14;
-                //      node.push(search(e.x - sqr, e.y - sqr, game.grid))
-                //      xd.x = e.x - sqr;
-                //      xd.y = e.y - sqr;
-                //      xd.drawSquare("orange");
-                //  }
-                if (numb == 1 && search(e.x - sqr, e.y + sqr, game.grid) != undefined &&
-                    search(e.x - sqr, e.y + sqr, game.grid).g === undefined) {
-                    search(e.x - sqr, e.y + sqr, game.grid).g = e.g + 14;
-                    node.push(search(e.x + sqr, e.y + sqr, game.grid));
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("red");
-                } else if (numb == 2 && search(e.x - sqr, e.y + sqr, game.grid) != undefined &&
-                    search(e.x - sqr, e.y + sqr, game.grid).h === undefined) {
-                    search(e.x - sqr, e.y + sqr, game.grid).h = e.h + 14;
-                    node.push(search(e.x - sqr, e.y + sqr, game.grid));
-                    xd.x = e.x + sqr;
-                    xd.y = e.y;
-                    xd.drawSquare("red");
-                }
-                //  if(search(e.x - sqr, e.y + sqr, game.grid)!= undefined&&
-                //  search(e.x - sqr, e.y + sqr, game.grid).g===undefined){
-                //      search(e.x - sqr, e.y + sqr, game.grid).g = e.g + 14;
-                //      node.push(search(e.x - sqr, e.y + sqr, game.grid))
-                //      xd.x = e.x - sqr;
-                //      xd.y = e.y + sqr;
-                //      xd.drawSquare("orange");
-                //  }
+            }
+            node = [];
+            node = node2;
 
-            } else {
-                console.log("stop")
-                clearInterval(int);
+        } else {
+            clearInterval(int);
+            game.count += 1;
+            if (game.count == 2) {
+                console.log("czas na F COST")
+                game.grid.forEach(e => {
+                    e.f = e.g + e.h;
+                })
                 console.log(game.grid)
             }
-
-        });
-        let node2 = [];
-        let lastindx = node[node.length - 1];
-        console.log(lastindx)
-        for (let i = 0; i < node.length; i++) {
-            if (numb == 1) {
-                console.log(node[i].g, lastindx.g)
-                if (node[i].g == lastindx.g) {
-                    node2.push(node[i])
-                }
-            } else if (numb == 2) {
-                if (node[i].h == lastindx.h) {
-                    node2.push(node[i])
-                }
-            }
-
         }
-        node = node2;
     }, 50);
 }

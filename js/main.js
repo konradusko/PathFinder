@@ -24,6 +24,7 @@ class Game {
         }
         this.draw = new Draw(this.square, this.ctx);
         this.grid = [];
+        this.count =0;
     }
 
     drawSquare() {
@@ -36,7 +37,7 @@ class Game {
                 this.draw.x = i*this.square;
                 this.draw.y = j*this.square;
                 this.draw.drawEmptySquare();
-                this.grid.push({x:i*this.square,y:j*this.square,g:undefined,h:undefined})
+                this.grid.push({x:i*this.square,y:j*this.square,g:undefined,h:undefined,f:undefined})
             }
         }
         console.log(this.grid)
