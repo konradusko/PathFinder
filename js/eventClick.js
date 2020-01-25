@@ -56,7 +56,6 @@ function eventClick() {
     document.addEventListener("mouseup", () => {
         click = 0;
     })
-
     function removeWall(point) {
         game.wallArray.splice(point.index, 1);
         clearParamets(point);
@@ -66,14 +65,12 @@ function eventClick() {
             }
         })
     }
-
     function clearParamets(point) {
         game.draw.x = point.x;
         game.draw.y = point.y;
         game.draw.clear();
         game.draw.drawEmptySquare();
     }
-
     function paramets(point, numb) {
         //1mouse
         //2 wall
@@ -94,7 +91,6 @@ function eventClick() {
         game.draw.drawSquare(point.color);
     }
 }
-
 function search(x, y, array) {
     for (let i = 0; i < array.length; i++) {
         if (array[i].x === x && array[i].y === y) {

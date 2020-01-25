@@ -23,7 +23,9 @@ class Game {
             color:"gray",
         }
         this.draw = new Draw(this.square, this.ctx);
+        this.grid = [];
     }
+
     drawSquare() {
 
         const height = this.canvas.height / this.square,
@@ -34,13 +36,16 @@ class Game {
                 this.draw.x = i*this.square;
                 this.draw.y = j*this.square;
                 this.draw.drawEmptySquare();
+                this.grid.push({x:i*this.square,y:j*this.square,g:undefined,h:undefined})
             }
         }
+        console.log(this.grid)
     }
     loop() {
         this.drawSquare();
         eventClick();
     }
+    
 }
 const game = new Game(20);
 game.loop();
