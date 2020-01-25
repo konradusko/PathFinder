@@ -19,12 +19,12 @@ class Game {
             y: -2,
             exist: false,
         }
-        this.wall ={
-            color:"gray",
-        }
+        // this.wall ={
+        //     color:"gray",
+        // }
         this.draw = new Draw(this.square, this.ctx);
         this.grid = [];
-        this.count =0;
+        // this.count =0;
     }
 
     drawSquare() {
@@ -34,10 +34,20 @@ class Game {
         console.log(this.canvas.width / this.square)
         for (let i = 0; i < width; i++) {
             for (let j = 0; j < height; j++) {
-                this.draw.x = i*this.square;
-                this.draw.y = j*this.square;
+                this.draw.x = i * this.square;
+                this.draw.y = j * this.square;
                 this.draw.drawEmptySquare();
-                this.grid.push({x:i*this.square,y:j*this.square,g:undefined,h:undefined,f:undefined})
+                this.grid.push({
+                    x: i * this.square,
+                    y: j * this.square,
+                    g: undefined,
+                    h: undefined,
+                    f: undefined,
+                    wall: false,
+                    color: "gray",
+                    isStartPosition: false,
+                    isEndPosition: false
+                })
             }
         }
         console.log(this.grid)
@@ -46,7 +56,7 @@ class Game {
         this.drawSquare();
         eventClick();
     }
-    
+
 }
-const game = new Game(20);
+const game = new Game(90);
 game.loop();

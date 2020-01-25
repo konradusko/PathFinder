@@ -4,97 +4,122 @@ function eventClick() {
         target = 0,
         click = 0,
         button = undefined,
-        checkifWall = undefined,
-        checkifPosition = undefined;
+        checkif = undefined,
+        checkStartPosition = undefined,
+        checkEndPosition = undefined;
     document.addEventListener("keyup", (e) => {
-        checkifWall = search(mouseX, mouseY, game.wallArray);
-        checkifPosition = search(mouseX, mouseY, [game.startPosition, game.endPosition]);
-        if (e.keyCode == 83 && checkifPosition === undefined && checkifWall === undefined && target == game.canvas.id) {
+        checkif = search(mouseX, mouseY, game.grid);
+        checkStartPosition = search2(game.grid, 1);
+        checkEndPosition = search2(game.grid, 2);
+        if (e.keyCode == 83 && target == game.canvas.id && checkif != undefined &&
+            checkif.wall === false && checkif.isStartPosition == false && checkif.isEndPosition == false) {
             //start
-            if (game.startPosition.exist == true) {
-                clearParamets(game.startPosition);
-                paramets(game.startPosition, 1);
+            if (checkStartPosition === false) {
+                paramets(checkif, 1);
             } else {
-                paramets(game.startPosition, 1);
-                game.startPosition.exist = true;
+                clearParamets(checkStartPosition, 1);
+                paramets(checkif, 1);
+                //istnieje juz
             }
-        } else if (e.keyCode == 69 && checkifPosition === undefined && checkifWall === undefined && target == game.canvas.id) {
+        } else if (e.keyCode == 69 && target == game.canvas.id && checkif != undefined &&
+            checkif.wall === false && checkif.isEndPosition == false && checkif.isStartPosition == false) {
             //end
-            if (game.endPosition.exist == true) {
-                clearParamets(game.endPosition);
-                paramets(game.endPosition, 1);
+            if (checkEndPosition === false) {
+                paramets(checkif, 2);
             } else {
-                paramets(game.endPosition, 1);
-                game.endPosition.exist = true;
+                clearParamets(checkEndPosition, 2);
+                paramets(checkif, 2);
+                //istnieje juz
             }
         }
+
     })
     document.addEventListener('mousemove', (e) => {
         target = e.target.id;
         mouseX = Math.floor(e.pageX / game.square) * game.square;
         mouseY = Math.floor(e.pageY / game.square) * game.square;
-        checkifWall = search(mouseX, mouseY, game.wallArray);
-        checkifPosition = search(mouseX, mouseY, [game.startPosition, game.endPosition]);
-        if (click == 1 && button == 0 && checkifWall === undefined && checkifPosition === undefined && target == game.canvas.id) {
-            paramets(game.wall, 2);
-        } else if (click == 1 && button == 2 && checkifWall != undefined && checkifPosition === undefined) {
-            removeWall(checkifWall);
+        checkif = search(mouseX, mouseY, game.grid);
+        if (target == game.canvas.id && click == 1 && button == 0 && checkif.isStartPosition == false &&
+            checkif.isEndPosition == false && checkif.wall == false) {
+            paramets(checkif, 3);
+        } else if (target == game.canvas.id && click == 1 && button == 2 && checkif.isEndPosition == false &&
+            checkif.isStartPosition == false && checkif.wall == true) {
+            clearParamets(checkif, 3);
         }
     })
     document.addEventListener("mousedown", (e) => {
         click = 1;
         target = e.target.id;
         button = e.button;
-        checkifWall = search(mouseX, mouseY, game.wallArray);
-        checkifPosition = search(mouseX, mouseY, [game.startPosition, game.endPosition]);
-        if (e.button == 0 && checkifPosition === undefined && checkifWall === undefined && target == game.canvas.id) {
-            paramets(game.wall, 2);
-        } else if (e.button == 2 && checkifWall != undefined && checkifPosition === undefined) {
-            removeWall(checkifWall);
+        checkif = search(mouseX, mouseY, game.grid);
+        if (target == game.canvas.id && e.button == 0 && checkif.isStartPosition == false &&
+            checkif.isEndPosition == false && checkif.wall == false) {
+            paramets(checkif, 3);
+        } else if (target == game.canvas.id && e.button == 2 && checkif.isEndPosition == false &&
+            checkif.isStartPosition == false && checkif.wall == true) {
+            clearParamets(checkif, 3);
         }
+
     })
     document.addEventListener("mouseup", () => {
         click = 0;
     })
-    function removeWall(point) {
-        game.wallArray.splice(point.index, 1);
-        clearParamets(point);
-        game.wallArray.forEach(e => {
-            if (e.index > point.index) {
-                e.index -= 1;
-            }
-        })
-    }
-    function clearParamets(point) {
+
+    function clearParamets(point, numb) {
         game.draw.x = point.x;
         game.draw.y = point.y;
         game.draw.clear();
-        game.draw.drawEmptySquare();
+        if (numb == 1) {
+            //start
+            point.isStartPosition = false;
+        } else if (numb == 2) {
+            //end
+            point.isEndPosition = false;
+        } else if (numb == 3) {
+            point.wall = false;
+        }
     }
+
     function paramets(point, numb) {
         //1mouse
         //2 wall
         if (numb == 1) {
-            point.x = mouseX;
-            point.y = mouseY;
+            point.color = "blue";
+            point.isStartPosition = true;
         } else if (numb == 2) {
-            game.wallArray.push({
-                x: mouseX,
-                y: mouseY,
-                color: point.color,
-                index: game.wallArray.length
-            }); //dodaje mur do tablicy
-            console.log(game.wallArray)
+            point.color = "green";
+            point.isEndPosition = true;
+        } else if (numb == 3) {
+            point.wall = true;
+            point.color = "gray";
         }
         game.draw.x = mouseX;
         game.draw.y = mouseY;
         game.draw.drawSquare(point.color);
     }
 }
+
 function search(x, y, array) {
     for (let i = 0; i < array.length; i++) {
         if (array[i].x === x && array[i].y === y) {
             return array[i];
         }
     }
+}
+
+function search2(array, numb) {
+    for (let i = 0; i < array.length; i++) {
+        if (numb == 1) {
+            //start
+            if (array[i].isStartPosition == true) {
+                return array[i];
+            }
+        } else if (numb == 2) {
+            if (array[i].isEndPosition == true) {
+                return array[i];
+            }
+        }
+
+    }
+    return false;
 }

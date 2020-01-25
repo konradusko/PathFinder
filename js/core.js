@@ -1,12 +1,15 @@
+let countG;
+let countH;
+
 function core() {
-    let stInGrid = search(game.startPosition.x, game.startPosition.y, game.grid);
-    stInGrid.g = 0;
-    stInGrid.h = undefined;
-    let endInGrid = search(game.endPosition.x, game.endPosition.y, game.grid);
-    endInGrid.h = 0;
-    endInGrid.g = undefined;
-    gAndh([stInGrid], 1);
-    gAndh([endInGrid], 2);
+    let startPoint = search2(game.grid, 1);
+    startPoint.g = 0;
+    startPoint.h = undefined;
+    let endPoint = search2(game.grid, 2);
+    endPoint.g = undefined;
+    endPoint.h = 0
+    gAndh([startPoint], 1);
+    gAndh([endPoint], 2);
 }
 
 function check(arr, numb) {
@@ -19,18 +22,22 @@ function check(arr, numb) {
             if (arr[i].h === undefined) {
                 return true;
             }
+        } else if (numb == 3) {
+            if (arr[i].h != undefined && arr[i].g != undefined && arr[i].f != undefined) {
+                return true;
+            }
         }
     }
+    return false;
 }
 
-function gAndh(nod, number) {
-    let node = nod;
-    // console.log(node)
+function gAndh(node, number) {
     const numb = number;
     let sqr = game.square;
     let int = setInterval(() => {
         if (node.length != 0) {
-            node.forEach(e => {
+            for (let i = 0; i < node.length; i++) {
+                let e = node[i];
                 if (check(game.grid, numb)) {
                     //numb 1 ==g
                     if (numb == 1 && search(e.x + sqr, e.y, game.grid) != undefined &&
@@ -105,12 +112,17 @@ function gAndh(nod, number) {
                         search(e.x - sqr, e.y + sqr, game.grid).h = e.h + 14;
                         node.push(search(e.x - sqr, e.y + sqr, game.grid))
                     }
-
                 } else {
-                    node.splice(node.indexOf(search(e.x, e.y, node)), 1);
+                    node = [];
+                    if (numb == 1) {
+                        countG = true;
+                    } else if (numb == 2) {
+                        countH = true;
+                    }
+                    clearInterval(int);
+                    break;
                 }
-
-            });
+            }
             let node2 = [];
             let lastindx = node[node.length - 1];
             for (let i = 0; i < node.length; i++) {
@@ -126,17 +138,15 @@ function gAndh(nod, number) {
             }
             node = [];
             node = node2;
-
-        } else {
-            clearInterval(int);
-            game.count += 1;
-            if (game.count == 2) {
-                console.log("czas na F COST")
+            if (countG && countH) {
                 game.grid.forEach(e => {
-                    e.f = e.g + e.h;
+                    e.f = e.h + e.g;
                 })
+            }
+            if (check(game.grid, 3)) {
                 console.log(game.grid)
+                calc();
             }
         }
-    }, 50);
+    }, 1);
 }
