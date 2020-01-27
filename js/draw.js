@@ -17,5 +17,6 @@ class Draw {
         this.ctx.fillRect(this.x +2  ,this.y +2,this.size-4,this.size-4);
         this.ctx.stroke();
     }
+    
 
 }

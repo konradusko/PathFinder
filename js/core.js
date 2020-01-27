@@ -33,8 +33,8 @@ function check(arr, numb) {
 
 function gAndh(node, number) {
     const numb = number;
-    let sqr = game.square;
-    let int = setInterval(() => {
+    const sqr = game.square;
+    const int = setInterval(() => {
         if (node.length != 0) {
             for (let i = 0; i < node.length; i++) {
                 let e = node[i];
@@ -43,7 +43,7 @@ function gAndh(node, number) {
                     if (numb == 1 && search(e.x + sqr, e.y, game.grid) != undefined &&
                         search(e.x + sqr, e.y, game.grid).g === undefined) {
                         search(e.x + sqr, e.y, game.grid).g = e.g + 10;
-                    } else if (search(e.x + sqr, e.y, game.grid) != undefined &&
+                    } else if (numb == 2 && search(e.x + sqr, e.y, game.grid) != undefined &&
                         search(e.x + sqr, e.y, game.grid).h === undefined && numb == 2) {
                         search(e.x + sqr, e.y, game.grid).h = e.h + 10;
                     }
@@ -59,7 +59,7 @@ function gAndh(node, number) {
                     if (numb == 1 && search(e.x, e.y - sqr, game.grid) != undefined &&
                         search(e.x, e.y - sqr, game.grid).g === undefined) {
                         search(e.x, e.y - sqr, game.grid).g = e.g + 10;
-                    } else if (search(e.x, e.y - sqr, game.grid) != undefined &&
+                    } else if (numb == 2 && search(e.x, e.y - sqr, game.grid) != undefined &&
                         search(e.x, e.y - sqr, game.grid).h === undefined && numb == 2) {
                         search(e.x, e.y - sqr, game.grid).h = e.h + 10;
                     }
@@ -67,7 +67,7 @@ function gAndh(node, number) {
                     if (numb == 1 && search(e.x, e.y + sqr, game.grid) != undefined &&
                         search(e.x, e.y + sqr, game.grid).g === undefined) {
                         search(e.x, e.y + sqr, game.grid).g = e.g + 10;
-                    } else if (search(e.x, e.y + sqr, game.grid) != undefined &&
+                    } else if (numb == 2 && search(e.x, e.y + sqr, game.grid) != undefined &&
                         search(e.x, e.y + sqr, game.grid).h === undefined && numb == 2) {
                         search(e.x, e.y + sqr, game.grid).h = e.h + 10;
                     }
@@ -141,6 +141,10 @@ function gAndh(node, number) {
             if (countG && countH) {
                 game.grid.forEach(e => {
                     e.f = e.h + e.g;
+                    // console.log(" CO JEST")
+                    // game.ctx.font = "50px Arial";
+                    // game.ctx.fillStyle = "red";
+                    // game.ctx.fillText = ("G = "+ e.g + "H = " +e.h + "f = "+e.f, e.x,e.y); 
                 })
             }
             if (check(game.grid, 3)) {

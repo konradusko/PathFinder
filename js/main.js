@@ -6,19 +6,19 @@ class Game {
         this.square = square;
         this.canvas.width = Math.floor(this.container.offsetWidth / this.square) * this.square;
         this.canvas.height = Math.floor(this.container.offsetHeight / this.square) * this.square;
-        this.wallArray = [];
-        this.startPosition = {
-            color: "green",
-            x: -1,
-            y: -1,
-            exist: false,
-        }
-        this.endPosition = {
-            color: "red",
-            x: -2,
-            y: -2,
-            exist: false,
-        }
+        // this.wallArray = [];
+        // this.startPosition = {
+        //     color: "green",
+        //     x: -1,
+        //     y: -1,
+        //     exist: false,
+        // }
+        // this.endPosition = {
+        //     color: "red",
+        //     x: -2,
+        //     y: -2,
+        //     exist: false,
+        // }
         // this.wall ={
         //     color:"gray",
         // }
@@ -58,5 +58,5 @@ class Game {
     }
 
 }
-const game = new Game(90);
+const game = new Game(50);
 game.loop();
