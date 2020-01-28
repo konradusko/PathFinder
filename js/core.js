@@ -34,123 +34,110 @@ function check(arr, numb) {
 function gAndh(node, number) {
     const numb = number;
     const sqr = game.square;
-    const int = setInterval(() => {
-        if (node.length != 0) {
-            for (let i = 0; i < node.length; i++) {
-                let e = node[i];
-                if (check(game.grid, numb)) {
-                    //numb 1 ==g
-                    if (numb == 1 && search(e.x + sqr, e.y, game.grid) != undefined &&
-                        search(e.x + sqr, e.y, game.grid).g === undefined) {
-                        search(e.x + sqr, e.y, game.grid).g = e.g + 10;
-                    } else if (numb == 2 && search(e.x + sqr, e.y, game.grid) != undefined &&
-                        search(e.x + sqr, e.y, game.grid).h === undefined && numb == 2) {
-                        search(e.x + sqr, e.y, game.grid).h = e.h + 10;
-                    }
-
-                    if (numb == 1 && search(e.x - sqr, e.y, game.grid) != undefined &&
-                        search(e.x - sqr, e.y, game.grid).g === undefined) {
-                        search(e.x - sqr, e.y, game.grid).g = e.g + 10;
-                    } else if (numb == 2 && search(e.x - sqr, e.y, game.grid) != undefined &&
-                        search(e.x - sqr, e.y, game.grid).h === undefined) {
-                        search(e.x - sqr, e.y, game.grid).h = e.h + 10;
-                    }
-
-                    if (numb == 1 && search(e.x, e.y - sqr, game.grid) != undefined &&
-                        search(e.x, e.y - sqr, game.grid).g === undefined) {
-                        search(e.x, e.y - sqr, game.grid).g = e.g + 10;
-                    } else if (numb == 2 && search(e.x, e.y - sqr, game.grid) != undefined &&
-                        search(e.x, e.y - sqr, game.grid).h === undefined && numb == 2) {
-                        search(e.x, e.y - sqr, game.grid).h = e.h + 10;
-                    }
-
-                    if (numb == 1 && search(e.x, e.y + sqr, game.grid) != undefined &&
-                        search(e.x, e.y + sqr, game.grid).g === undefined) {
-                        search(e.x, e.y + sqr, game.grid).g = e.g + 10;
-                    } else if (numb == 2 && search(e.x, e.y + sqr, game.grid) != undefined &&
-                        search(e.x, e.y + sqr, game.grid).h === undefined && numb == 2) {
-                        search(e.x, e.y + sqr, game.grid).h = e.h + 10;
-                    }
-
-
-                    if (search(e.x + sqr, e.y + sqr, game.grid) != undefined &&
-                        search(e.x + sqr, e.y + sqr, game.grid).g === undefined && numb == 1) {
-                        search(e.x + sqr, e.y + sqr, game.grid).g = e.g + 14;
-                        node.push(search(e.x + sqr, e.y + sqr, game.grid))
-                    } else if (search(e.x + sqr, e.y + sqr, game.grid) != undefined &&
-                        search(e.x + sqr, e.y + sqr, game.grid).h === undefined && numb == 2) {
-                        search(e.x + sqr, e.y + sqr, game.grid).h = e.h + 14;
-                        node.push(search(e.x + sqr, e.y + sqr, game.grid))
-                    }
-
-                    if (search(e.x + sqr, e.y - sqr, game.grid) != undefined &&
-                        search(e.x + sqr, e.y - sqr, game.grid).g === undefined && numb == 1) {
-                        search(e.x + sqr, e.y - sqr, game.grid).g = e.g + 14;
-                        node.push(search(e.x + sqr, e.y - sqr, game.grid))
-                    } else if (search(e.x + sqr, e.y - sqr, game.grid) != undefined &&
-                        search(e.x + sqr, e.y - sqr, game.grid).h === undefined && numb == 2) {
-                        search(e.x + sqr, e.y - sqr, game.grid).h = e.h + 14;
-                        node.push(search(e.x + sqr, e.y - sqr, game.grid))
-                    }
-
-                    if (search(e.x - sqr, e.y - sqr, game.grid) != undefined &&
-                        search(e.x - sqr, e.y - sqr, game.grid).g === undefined && numb == 1) {
-                        search(e.x - sqr, e.y - sqr, game.grid).g = e.g + 14;
-                        node.push(search(e.x - sqr, e.y - sqr, game.grid))
-                    } else if (search(e.x - sqr, e.y - sqr, game.grid) != undefined &&
-                        search(e.x - sqr, e.y - sqr, game.grid).h === undefined && numb == 2) {
-                        search(e.x - sqr, e.y - sqr, game.grid).h = e.h + 14;
-                        node.push(search(e.x - sqr, e.y - sqr, game.grid))
-                    }
-
-                    if (search(e.x - sqr, e.y + sqr, game.grid) != undefined &&
-                        search(e.x - sqr, e.y + sqr, game.grid).g === undefined && numb == 1) {
-                        search(e.x - sqr, e.y + sqr, game.grid).g = e.g + 14;
-                        node.push(search(e.x - sqr, e.y + sqr, game.grid))
-                    } else if (search(e.x - sqr, e.y + sqr, game.grid) != undefined &&
-                        search(e.x - sqr, e.y + sqr, game.grid).h === undefined && numb == 2) {
-                        search(e.x - sqr, e.y + sqr, game.grid).h = e.h + 14;
-                        node.push(search(e.x - sqr, e.y + sqr, game.grid))
-                    }
-                } else {
-                    node = [];
-                    if (numb == 1) {
-                        countG = true;
-                    } else if (numb == 2) {
-                        countH = true;
-                    }
-                    clearInterval(int);
-                    break;
+    if (node.length != 0) {
+        for (let i = 0; i < node.length; i++) {
+            let e = node[i];
+            if (check(game.grid, numb)) {
+                //numb 1 ==g
+                if (numb == 1 && search(e.x + sqr, e.y, game.grid) != undefined &&
+                    search(e.x + sqr, e.y, game.grid).g === undefined) {
+                    search(e.x + sqr, e.y, game.grid).g = e.g + 10;
+                    node.push(search(e.x + sqr, e.y, game.grid));
+                } else if (numb == 2 && search(e.x + sqr, e.y, game.grid) != undefined &&
+                    search(e.x + sqr, e.y, game.grid).h === undefined && numb == 2) {
+                    search(e.x + sqr, e.y, game.grid).h = e.h + 10;
+                    node.push(search(e.x + sqr, e.y, game.grid));
                 }
-            }
-            let node2 = [];
-            let lastindx = node[node.length - 1];
-            for (let i = 0; i < node.length; i++) {
+
+                if (numb == 1 && search(e.x - sqr, e.y, game.grid) != undefined &&
+                    search(e.x - sqr, e.y, game.grid).g === undefined) {
+                    search(e.x - sqr, e.y, game.grid).g = e.g + 10;
+                    node.push(search(e.x - sqr, e.y, game.grid));
+                } else if (numb == 2 && search(e.x - sqr, e.y, game.grid) != undefined &&
+                    search(e.x - sqr, e.y, game.grid).h === undefined) {
+                    search(e.x - sqr, e.y, game.grid).h = e.h + 10;
+                    node.push(search(e.x - sqr, e.y, game.grid));
+                }
+
+                if (numb == 1 && search(e.x, e.y - sqr, game.grid) != undefined &&
+                    search(e.x, e.y - sqr, game.grid).g === undefined) {
+                    search(e.x, e.y - sqr, game.grid).g = e.g + 10;
+                    node.push(search(e.x, e.y - sqr, game.grid))
+                } else if (numb == 2 && search(e.x, e.y - sqr, game.grid) != undefined &&
+                    search(e.x, e.y - sqr, game.grid).h === undefined && numb == 2) {
+                    search(e.x, e.y - sqr, game.grid).h = e.h + 10;
+                    node.push(search(e.x, e.y - sqr, game.grid))
+                }
+
+                if (numb == 1 && search(e.x, e.y + sqr, game.grid) != undefined &&
+                    search(e.x, e.y + sqr, game.grid).g === undefined) {
+                    search(e.x, e.y + sqr, game.grid).g = e.g + 10;
+                    node.push(search(e.x, e.y + sqr, game.grid))
+                } else if (numb == 2 && search(e.x, e.y + sqr, game.grid) != undefined &&
+                    search(e.x, e.y + sqr, game.grid).h === undefined && numb == 2) {
+                    search(e.x, e.y + sqr, game.grid).h = e.h + 10;
+                    node.push(search(e.x, e.y + sqr, game.grid))
+                }
+
+
+                if (search(e.x + sqr, e.y + sqr, game.grid) != undefined &&
+                    search(e.x + sqr, e.y + sqr, game.grid).g === undefined && numb == 1) {
+                    search(e.x + sqr, e.y + sqr, game.grid).g = e.g + 14;
+                    node.push(search(e.x + sqr, e.y + sqr, game.grid))
+                } else if (search(e.x + sqr, e.y + sqr, game.grid) != undefined &&
+                    search(e.x + sqr, e.y + sqr, game.grid).h === undefined && numb == 2) {
+                    search(e.x + sqr, e.y + sqr, game.grid).h = e.h + 14;
+                    node.push(search(e.x + sqr, e.y + sqr, game.grid))
+                }
+
+                if (search(e.x + sqr, e.y - sqr, game.grid) != undefined &&
+                    search(e.x + sqr, e.y - sqr, game.grid).g === undefined && numb == 1) {
+                    search(e.x + sqr, e.y - sqr, game.grid).g = e.g + 14;
+                    node.push(search(e.x + sqr, e.y - sqr, game.grid))
+                } else if (search(e.x + sqr, e.y - sqr, game.grid) != undefined &&
+                    search(e.x + sqr, e.y - sqr, game.grid).h === undefined && numb == 2) {
+                    search(e.x + sqr, e.y - sqr, game.grid).h = e.h + 14;
+                    node.push(search(e.x + sqr, e.y - sqr, game.grid))
+                }
+
+                if (search(e.x - sqr, e.y - sqr, game.grid) != undefined &&
+                    search(e.x - sqr, e.y - sqr, game.grid).g === undefined && numb == 1) {
+                    search(e.x - sqr, e.y - sqr, game.grid).g = e.g + 14;
+                    node.push(search(e.x - sqr, e.y - sqr, game.grid))
+                } else if (search(e.x - sqr, e.y - sqr, game.grid) != undefined &&
+                    search(e.x - sqr, e.y - sqr, game.grid).h === undefined && numb == 2) {
+                    search(e.x - sqr, e.y - sqr, game.grid).h = e.h + 14;
+                    node.push(search(e.x - sqr, e.y - sqr, game.grid))
+                }
+
+                if (search(e.x - sqr, e.y + sqr, game.grid) != undefined &&
+                    search(e.x - sqr, e.y + sqr, game.grid).g === undefined && numb == 1) {
+                    search(e.x - sqr, e.y + sqr, game.grid).g = e.g + 14;
+                    node.push(search(e.x - sqr, e.y + sqr, game.grid))
+                } else if (search(e.x - sqr, e.y + sqr, game.grid) != undefined &&
+                    search(e.x - sqr, e.y + sqr, game.grid).h === undefined && numb == 2) {
+                    search(e.x - sqr, e.y + sqr, game.grid).h = e.h + 14;
+                    node.push(search(e.x - sqr, e.y + sqr, game.grid))
+                }
+            } else {
+                node = [];
                 if (numb == 1) {
-                    if (node[i].g == lastindx.g) {
-                        node2.push(node[i])
-                    }
+                    countG = true;
                 } else if (numb == 2) {
-                    if (node[i].h == lastindx.h) {
-                        node2.push(node[i])
-                    }
+                    countH = true;
                 }
-            }
-            node = [];
-            node = node2;
-            if (countG && countH) {
-                game.grid.forEach(e => {
-                    e.f = e.h + e.g;
-                    // console.log(" CO JEST")
-                    // game.ctx.font = "50px Arial";
-                    // game.ctx.fillStyle = "red";
-                    // game.ctx.fillText = ("G = "+ e.g + "H = " +e.h + "f = "+e.f, e.x,e.y); 
-                })
-            }
-            if (check(game.grid, 3)) {
-                console.log(game.grid)
-                calc();
+                break;
+
             }
         }
-    }, 1);
+        if (countG && countH) {
+            game.grid.forEach(e => {
+                e.f = e.h + e.g;
+            })
+        }
+        if (check(game.grid, 3)) {
+            console.log(game.grid)
+            calc();
+        }
+    }
 }

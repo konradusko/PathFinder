@@ -58,5 +58,5 @@ class Game {
     }
 
 }
-const game = new Game(50);
+const game = new Game(100);
 game.loop();
