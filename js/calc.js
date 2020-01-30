@@ -1,97 +1,81 @@
 function calc() {
-    let start_pkt = search2(game.grid, 1);
+    let start_pkt = [search2(game.grid, 1)];
     const sqr = game.square;
-    let node;
-    let nodeAsPossible = [];
+    let openNode = [];
+    let nodeAsPossible = []; // sprawdzone pod wzgledem istnienia i muru
     let tmp;
-    let goodPath = [];
-    let nodeOfF = [];
-    const searchInterval = setInterval(() => {
-        node = [];
-        node = [search(start_pkt.x + sqr, start_pkt.y, game.grid), search(start_pkt.x - sqr, start_pkt.y, game.grid),
-            search(start_pkt.x, start_pkt.y + sqr, game.grid), search(start_pkt.x, start_pkt.y - sqr, game.grid),
-            search(start_pkt.x + sqr, start_pkt.y + sqr, game.grid), search(start_pkt.x + sqr, start_pkt.y - sqr, game.grid),
-            search(start_pkt.x - sqr, start_pkt.y - sqr, game.grid), search(start_pkt.x - sqr, start_pkt.y + sqr, game.grid)
-        ];
-        for (let i = 0; i < node.length; i++) {
-            if (node[i] != undefined && node[i].isEndPosition == true) {
-                //znalazło pkt
-                console.log("MAMY TO")
-                clearInterval(searchInterval)
-                nodeAsPossible = [];
-                break;
-            } else if (node[i] != undefined && node[i].isStartPosition === false && node[i].wall == false&&
-                search(node[i].x,node[i].y,goodPath)== undefined) {
-                //jesli nie jest sciana i istnieje 
-                console.log( search(node[i].x,node[i].y,goodPath))
-                nodeAsPossible.push(node[i]);
+    let tryNodes = [search2(game.grid, 1)]; // obiekty które już były uzyte
+    const searchInv = setInterval(() => {
+        for (let z = 0; z < start_pkt.length; z++) {
+            openNode.push(search(start_pkt[z].x + sqr, start_pkt[z].y, game.grid), search(start_pkt[z].x - sqr, start_pkt[z].y, game.grid),
+                search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid), search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid),
+                search(start_pkt[z].x + sqr, start_pkt[z].y + sqr, game.grid), search(start_pkt[z].x + sqr, start_pkt[z].y - sqr, game.grid),
+                search(start_pkt[z].x - sqr, start_pkt[z].y - sqr, game.grid), search(start_pkt[z].x - sqr, start_pkt[z].y + sqr, game.grid)
+            );
+            for (let j = 0; j < openNode.length; j++) {
+                if (openNode[j] != undefined && openNode[j].isEndPosition == true) {
+                    clearInterval(searchInv);
+                    console.log("we got this")
+                    nodeAsPossible = undefined;
+                    break;
+                } else if (openNode[j] != undefined &&
+                    openNode[j].isStartPosition == false &&
+                    openNode[j].wall == false && search(openNode[j].x, openNode[j].y, nodeAsPossible) == undefined &&
+                    search(openNode[j].x, openNode[j].y, tryNodes) == undefined) {
+                    nodeAsPossible.push(openNode[j]);
+                }
             }
-        }
-        console.log(nodeAsPossible)
-        if (nodeAsPossible.length != 0) {
-            tmp = nodeAsPossible[0];
-            for (let j = 0; j < nodeAsPossible.length; j++) {
-                //szukam najmniejszego f lub h
 
-                if (nodeAsPossible[j].f < tmp.f) {
-                    tmp = nodeAsPossible[j];
-                    console.log("?")
-                }else if (nodeAsPossible[j].f == tmp.f) {
-                    tmp = nodeAsPossible[j];
-                    nodeOfF.push(nodeAsPossible[j]);
-                }
-       
-            }
-            if (nodeOfF.length > 1) {
-                // console.log(nodeOfF)
-                tmp = nodeOfF[0];
-                // console.log(tmp)
-                for (let k = 0; k < nodeOfF.length; k++) {
-                    // console.log(nodeOfF[k])
-                    // console.log(tmp)
-                    if (nodeOfF[k].g > tmp.g) {
-                        tmp = nodeOfF[k];
-                        // console.log("MNIEJSZE")
-                    } else if (nodeOfF[k].g == tmp.g) {
-                        if (nodeOfF[k].h <= tmp.h) {
-                            tmp = nodeOfF[k];
-                        } 
-                    }
-                }
-            }
-            nodeAsPossible.splice(nodeAsPossible.indexOf(search(tmp.x, tmp.y, game.grid)), 1);
-            console.log(tmp);
-            console.log(nodeAsPossible);
+        }
+        // console.log(nodeAsPossible)
+        if(nodeAsPossible != undefined){
+            // console.log(getMin(nodeAsPossible))
+            tmp = getMin(nodeAsPossible);
             nodeAsPossible.forEach(e => {
                 game.draw.x = e.x;
                 game.draw.y = e.y;
                 game.draw.drawSquare("yellow");
             })
-
-            // game.draw.x = tmp.x;
-            // game.draw.y = tmp.y;
-            // game.draw.drawSquare("red");
-            goodPath.push(tmp);
-            goodPath.forEach(e => {
+            tmp.forEach(e => {
                 game.draw.x = e.x;
                 game.draw.y = e.y;
-                game.draw.drawSquare("red");
+                game.draw.drawSquare("orange");
+                start_pkt.push(e);
+                tryNodes.push(e);
             })
-
-            game.grid.forEach(e => {
-                game.ctx.font = "15px Georgia";
-                game.ctx.fillStyle = "black";
-                game.ctx.fillText('g=' + e.g, e.x + 5, e.y + 60)
-                game.ctx.fillText('h=' + e.h, e.x + 5, e.y + 40)
-                game.ctx.fillText('f=' + e.f, e.x + 5, e.y + 20)
-            })
-
-nodeAsPossible=[];
-            start_pkt = tmp;
-tmp =0;
-// clearInterval(searchInterval)
+            tmp = undefined;
+            nodeAsPossible = [];
+            // game.grid.forEach(e => {
+            //     game.ctx.font = "10px Georgia";
+            //     game.ctx.fillStyle = "black";
+            //     game.ctx.fillText('g=' + e.g, e.x + 5, e.y + 30)
+            //     game.ctx.fillText('h=' + e.h, e.x + 5, e.y + 20)
+            //     game.ctx.fillText('f=' + e.f, e.x + 5, e.y + 10)
+            // })
         }
 
-        //   clearInterval(searchInterval)
-    })
+
+    }, 600);
+}
+
+function getMin(ar) {
+    // console.log(ar2)
+    let lowestF = ar.reduce((min, p) => p.f < min ? p.f : min, ar[0].f);
+    let tmpArray = [];
+
+    for (let i = 0; i < ar.length; i++) {
+        if (ar[i].f == lowestF) {
+            tmpArray.push(ar[i]);
+
+        }
+    }
+    let returnArray = [];
+    let lowestH = tmpArray.reduce((min, p) => p.h < min ? p.h : min, ar[0].h);
+    for (let j = 0; j < tmpArray.length; j++) {
+        // console.log(ar2)
+        if (tmpArray[j].h == lowestH) {
+            returnArray.push(tmpArray[j]);
+        }
+    }
+    return returnArray;
 }
