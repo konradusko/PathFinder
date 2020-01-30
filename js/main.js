@@ -50,7 +50,7 @@ class Game {
                 })
             }
         }
-        console.log(this.grid)
+        // console.log(this.grid)
     }
     loop() {
         this.drawSquare();
@@ -58,5 +58,5 @@ class Game {
     }
 
 }
-const game = new Game(20);
+const game = new Game(50);
 game.loop();
