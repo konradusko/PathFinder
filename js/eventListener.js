@@ -22,7 +22,7 @@ const squareSizeSmall = document.getElementById("SquareSizeSmall"),
     })
     smallBTN.addEventListener("click", e=>{
         if(allowToChange){
-            speed = 240;
+            speed = 140;
           smallBTN.classList.add("active");
           mediumBTN.classList.remove("active");
           fastBtN.classList.remove("active");
@@ -30,7 +30,7 @@ const squareSizeSmall = document.getElementById("SquareSizeSmall"),
     })
     mediumBTN.addEventListener("click", e=>{
         if(allowToChange){
-            speed = 130;
+            speed = 90;
             smallBTN.classList.remove("active");
             mediumBTN.classList.add("active");
             fastBtN.classList.remove("active");
