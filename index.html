@@ -1,21 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="style.css" rel = "stylesheet">
-    <title>Document</title>
+    <link href="style.css" rel="stylesheet">
+    <title>Path Finder</title>
 </head>
+
 <body oncontextmenu="return false;">
     <div class="container" id="container">
         <canvas id="canvas"></canvas>
+        <div class="menu" id="menu">
+            <div id="container_menu" class="menu_container">
+                <div id="menu_3" class="winOrLose"> <span id="Info"></span>
+                <button id="playAgain"><b>Play again</b> </button></div>
+                <div id="menu_1" class="cont">
+                    <span>Square size:</span>
+                    <ul class="ul_container">
+                        <li><button id="SquareSizeSmall"> <b>Small</b> </button></li>
+                        <li><button id="SquareSizeMedium"> <b>Medium</b> </button></li>
+                        <li><button id="SquareSizeLarge"> <b>Large</b> </button></li>
+                    </ul>
+                </div>
+                <div id="menu_2" class="cont ">
+                    <span>Speed:</span>
+                    <ul class="ul_container">
+                        <li><button id="slow"> <b>Slow</b> </button></li>
+                        <li><button id="medium"> <b>Medium</b> </button></li>
+                        <li><button id = "fast"> <b>Fast</b> </button></li>
+                    </ul>
+                </div>
+                <div class="cont">
+                    <div><span>Open:</span> <b id="open">0</b></div>
+                    <div><span>Close:</span> <b id="close">0</b></div>
+                    <div><span>Path:</span>  <b id="path">0</b></div>
+
+                </div>
+
+            </div>
+            <div id="menu_4" class="BTN_cont">
+                <div>
+                    <div class="container-for-input">
+                        <label for="vehicle3">Values</label>
+                        <input id="showValue"type="checkbox" name="Show values" value="value" checked>
+                    </div>
+
+                </div>
+                <div> <Button id="search_BTN" class="search_button"><b>Search</b></Button></div>
+
+            </div>
+
+        </div>
     </div>
     <script src="js/draw.js"></script>
     <script src="js/eventClick.js"></script>
     <script src="js/core.js"></script>
     <script src="js/calc.js"></script>
     <script src="js/search.js"></script>
+    <script src="js/eventListener.js"></script>
     <script src="js/main.js"></script>
+
 </body>
+
 </html>

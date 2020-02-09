@@ -1,10 +1,11 @@
 function calc() {
     let win = false;
+    let lose = false;
     let start_pkt = [search2(game.grid, 1)];
     const sqr = game.square;
     let openNode = [];
-    let goodPath = [];
     let tmp;
+    // let RealOpenNode = [];
     const searchInv = setInterval(() => {
         for (let z = 0; z < start_pkt.length; z++) {
             if (search(start_pkt[z].x + sqr, start_pkt[z].y, game.grid) != undefined &&
@@ -12,6 +13,7 @@ function calc() {
                 search(start_pkt[z].x + sqr, start_pkt[z].y, start_pkt) == undefined &&
                 search(start_pkt[z].x + sqr, start_pkt[z].y, game.grid).isStartPosition == false &&
                 search(start_pkt[z].x + sqr, start_pkt[z].y, game.grid).wall == false) {
+                search(start_pkt[z].x + sqr, start_pkt[z].y, game.grid).parent = search(start_pkt[z].x, start_pkt[z].y, game.grid);
                 openNode.push(search(start_pkt[z].x + sqr, start_pkt[z].y, game.grid))
             }
             if (search(start_pkt[z].x - sqr, start_pkt[z].y, game.grid) != undefined &&
@@ -19,6 +21,7 @@ function calc() {
                 search(start_pkt[z].x - sqr, start_pkt[z].y, start_pkt) == undefined &&
                 search(start_pkt[z].x - sqr, start_pkt[z].y, game.grid).isStartPosition == false &&
                 search(start_pkt[z].x - sqr, start_pkt[z].y, game.grid).wall == false) {
+                search(start_pkt[z].x - sqr, start_pkt[z].y, game.grid).parent = search(start_pkt[z].x, start_pkt[z].y, game.grid);
                 openNode.push(search(start_pkt[z].x - sqr, start_pkt[z].y, game.grid));
             }
             if (search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid) != undefined &&
@@ -26,6 +29,7 @@ function calc() {
                 search(start_pkt[z].x, start_pkt[z].y + sqr, start_pkt) == undefined &&
                 search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid).isStartPosition == false &&
                 search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid).wall == false) {
+                search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid).parent = search(start_pkt[z].x, start_pkt[z].y, game.grid);
                 openNode.push(search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid))
             }
             if (search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid) != undefined &&
@@ -33,6 +37,7 @@ function calc() {
                 search(start_pkt[z].x, start_pkt[z].y - sqr, start_pkt) == undefined &&
                 search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid).isStartPosition == false &&
                 search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid).wall == false) {
+                search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid).parent = search(start_pkt[z].x, start_pkt[z].y, game.grid);
                 openNode.push(search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid))
             }
             if (search(start_pkt[z].x + sqr, start_pkt[z].y + sqr, game.grid) != undefined &&
@@ -40,8 +45,11 @@ function calc() {
                 search(start_pkt[z].x + sqr, start_pkt[z].y + sqr, start_pkt) == undefined &&
                 search(start_pkt[z].x + sqr, start_pkt[z].y + sqr, game.grid).isStartPosition == false &&
                 search(start_pkt[z].x + sqr, start_pkt[z].y + sqr, game.grid).wall == false) {
-                if (search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid).wall == false ||
+                if (search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid) != undefined &&
+                    search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid).wall == false ||
+                    search(start_pkt[z].x + sqr, start_pkt[z].y, game.grid) != undefined &&
                     search(start_pkt[z].x + sqr, start_pkt[z].y, game.grid).wall == false) {
+                    search(start_pkt[z].x + sqr, start_pkt[z].y + sqr, game.grid).parent = search(start_pkt[z].x, start_pkt[z].y, game.grid);
                     openNode.push(search(start_pkt[z].x + sqr, start_pkt[z].y + sqr, game.grid))
                 }
 
@@ -51,8 +59,11 @@ function calc() {
                 search(start_pkt[z].x + sqr, start_pkt[z].y - sqr, start_pkt) == undefined &&
                 search(start_pkt[z].x + sqr, start_pkt[z].y - sqr, game.grid).isStartPosition == false &&
                 search(start_pkt[z].x + sqr, start_pkt[z].y - sqr, game.grid).wall == false) {
-                if (search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid).wall == false ||
+                if (search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid) != undefined &&
+                    search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid).wall == false ||
+                    search(start_pkt[z].x + sqr, start_pkt[z].y, game.grid) != undefined &&
                     search(start_pkt[z].x + sqr, start_pkt[z].y, game.grid).wall == false) {
+                    search(start_pkt[z].x + sqr, start_pkt[z].y - sqr, game.grid).parent = search(start_pkt[z].x, start_pkt[z].y, game.grid);
                     openNode.push(search(start_pkt[z].x + sqr, start_pkt[z].y - sqr, game.grid))
                 }
             }
@@ -61,8 +72,11 @@ function calc() {
                 search(start_pkt[z].x - sqr, start_pkt[z].y - sqr, start_pkt) == undefined &&
                 search(start_pkt[z].x - sqr, start_pkt[z].y - sqr, game.grid).isStartPosition == false &&
                 search(start_pkt[z].x - sqr, start_pkt[z].y - sqr, game.grid).wall == false) {
-                if (search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid).wall == false ||
+                if (search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid) != undefined &&
+                    search(start_pkt[z].x, start_pkt[z].y - sqr, game.grid).wall == false ||
+                    search(start_pkt[z].x - sqr, start_pkt[z].y, game.grid) != undefined &&
                     search(start_pkt[z].x - sqr, start_pkt[z].y, game.grid).wall == false) {
+                    search(start_pkt[z].x - sqr, start_pkt[z].y - sqr, game.grid).parent = search(start_pkt[z].x, start_pkt[z].y, game.grid);
                     openNode.push(search(start_pkt[z].x - sqr, start_pkt[z].y - sqr, game.grid))
                 }
             }
@@ -71,99 +85,53 @@ function calc() {
                 search(start_pkt[z].x - sqr, start_pkt[z].y + sqr, start_pkt) == undefined &&
                 search(start_pkt[z].x - sqr, start_pkt[z].y + sqr, game.grid).isStartPosition == false &&
                 search(start_pkt[z].x - sqr, start_pkt[z].y + sqr, game.grid).wall == false) {
-                if (search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid).wall == false ||
+                if (search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid) != undefined &&
+                    search(start_pkt[z].x, start_pkt[z].y + sqr, game.grid).wall == false ||
+                    search(start_pkt[z].x - sqr, start_pkt[z].y, game.grid) != undefined &&
                     search(start_pkt[z].x - sqr, start_pkt[z].y, game.grid).wall == false) {
+                    search(start_pkt[z].x - sqr, start_pkt[z].y + sqr, game.grid).parent = search(start_pkt[z].x, start_pkt[z].y, game.grid);
                     openNode.push(search(start_pkt[z].x - sqr, start_pkt[z].y + sqr, game.grid))
                 }
             }
         }
 
         function shortestWay() {
-            goodPath.push(start_pkt[start_pkt.length - 1]);
-            let goodPkt;
-            let tmpGoodPath = [];
-            let goodPathInv = setInterval(() => {
-                if (search(goodPath[goodPath.length - 1].x + sqr, goodPath[goodPath.length - 1], start_pkt) != undefined &&
-                    search(goodPath[goodPath.length - 1].x + sqr, goodPath[goodPath.length - 1], goodPath) == undefined) {
-                    tmpGoodPath.push(search(goodPath[goodPath.length - 1].x + sqr, goodPath[goodPath.length - 1].y, start_pkt));
-                }
-                if (search(goodPath[goodPath.length - 1].x - sqr, goodPath[goodPath.length - 1].y, start_pkt) != undefined &&
-                    search(goodPath[goodPath.length - 1].x - sqr, goodPath[goodPath.length - 1].y, goodPath) == undefined) {
-                    tmpGoodPath.push(search(goodPath[goodPath.length - 1].x - sqr, goodPath[goodPath.length - 1].y, start_pkt));
-                }
-                if (search(goodPath[goodPath.length - 1].x, goodPath[goodPath.length - 1].y - sqr, start_pkt) != undefined &&
-                    search(goodPath[goodPath.length - 1].x, goodPath[goodPath.length - 1].y - sqr, goodPath) == undefined) {
-                    tmpGoodPath.push(search(goodPath[goodPath.length - 1].x, goodPath[goodPath.length - 1].y - sqr, start_pkt));
-                }
-                if (search(goodPath[goodPath.length - 1].x, goodPath[goodPath.length - 1].y + sqr, start_pkt) != undefined &&
-                    search(goodPath[goodPath.length - 1].x, goodPath[goodPath.length - 1].y + sqr, goodPath) == undefined) {
-                    tmpGoodPath.push(search(goodPath[goodPath.length - 1].x, goodPath[goodPath.length - 1].y + sqr, start_pkt));
-                }
-                if (search(goodPath[goodPath.length - 1].x + sqr, goodPath[goodPath.length - 1].y + sqr, start_pkt) != undefined &&
-                    search(goodPath[goodPath.length - 1].x + sqr, goodPath[goodPath.length - 1].y + sqr, goodPath) == undefined) {
-                    if (search(goodPath[goodPath.length - 1].x, goodPath[goodPath.length - 1].y + sqr, game.grid).wall == false ||
-                        search(goodPath[goodPath.length - 1].x + sqr, goodPath[goodPath.length - 1].y, game.grid).wall == false) {
-                        tmpGoodPath.push(search(goodPath[goodPath.length - 1].x + sqr, goodPath[goodPath.length - 1].y + sqr, start_pkt));
+            let lastE = start_pkt[start_pkt.length - 1];
+            game.draw.x = lastE.x;
+            game.draw.y = lastE.y;
+            game.draw.drawSquare("lightblue");
+            path++;
+            pathEl.innerHTML = path;
+            let goodPathIntv = setInterval(() => {
+                if (lastE.parent.isStartPosition == true) {
+                    clearInterval(goodPathIntv);
+                    if (inputCheckBox.checked == true && sizeSqr == 3) {
+                        game.grid.forEach(e => {
+                            game.ctx.font = "10px Georgia";
+                            game.ctx.fillStyle = "black";
+                            game.ctx.fillText('g=' + e.g, e.x + 5, e.y + 32)
+                            game.ctx.fillText('h=' + e.h, e.x + 5, e.y + 22)
+                            game.ctx.fillText('f=' + e.f, e.x + 5, e.y + 12)
+                        })
                     }
-                }
-                if (search(goodPath[goodPath.length - 1].x + sqr, goodPath[goodPath.length - 1].y - sqr, start_pkt) != undefined &&
-                    search(goodPath[goodPath.length - 1].x + sqr, goodPath[goodPath.length - 1].y - sqr, goodPath) == undefined) {
-                    if (search(goodPath[goodPath.length - 1].x, goodPath[goodPath.length - 1].y - sqr, game.grid).wall == false ||
-                        search(goodPath[goodPath.length - 1].x + sqr, goodPath[goodPath.length - 1].y, game.grid).wall == false) {
-                        tmpGoodPath.push(search(goodPath[goodPath.length - 1].x + sqr, goodPath[goodPath.length - 1].y - sqr, start_pkt));
-                    }
-                }
-                if (search(goodPath[goodPath.length - 1].x - sqr, goodPath[goodPath.length - 1].y + sqr, start_pkt) != undefined &&
-                    search(goodPath[goodPath.length - 1].x - sqr, goodPath[goodPath.length - 1].y + sqr, goodPath) == undefined) {
-                    if (search(goodPath[goodPath.length - 1].x, goodPath[goodPath.length - 1].y + sqr, game.grid).wall == false ||
-                        search(goodPath[goodPath.length - 1].x - sqr, goodPath[goodPath.length - 1].y, game.grid).wall == false) {
-                        tmpGoodPath.push(search(goodPath[goodPath.length - 1].x - sqr, goodPath[goodPath.length - 1].y + sqr, start_pkt));
-                    }
-                }
-                if (search(goodPath[goodPath.length - 1].x - sqr, goodPath[goodPath.length - 1].y - sqr, start_pkt) != undefined &&
-                    search(goodPath[goodPath.length - 1].x - sqr, goodPath[goodPath.length - 1].y - sqr, goodPath) == undefined) {
-                    if (search(goodPath[goodPath.length - 1].x, goodPath[goodPath.length - 1].y - sqr, game.grid).wall == false ||
-                        search(goodPath[goodPath.length - 1].x - sqr, goodPath[goodPath.length - 1].y, game.grid).wall == false) {
-                        tmpGoodPath.push(search(goodPath[goodPath.length - 1].x - sqr, goodPath[goodPath.length - 1].y - sqr, start_pkt));
-                    }
+                    allowToChange = true;
+                    menu1.style.display = "none";
+                    menu2.style.display = "none";
+                    menu4.style.display = "none";
+                    container_menu.style.width = 100 + "%";
+                    menu3.style.display = "flex";
+                    info.innerHTML = "Congratulations, you've found the path!";
+                    info.style.color = "yellow";
 
-                }
-
-                if (tmpGoodPath.length == 1) {
-                    goodPkt = tmpGoodPath[0];
                 } else {
-                    goodPkt = tmpGoodPath[0];
-                    //które wartość ma najmniejszy f i najwiekszy h
-                    for (let a = 1; a < tmpGoodPath.length; a++) {
-                        if (goodPkt.f == tmpGoodPath[a].f && goodPkt.h < tmpGoodPath[a].h) {
-                                goodPkt = tmpGoodPath[a];
-                        } else if (goodPkt.f > tmpGoodPath[a].f) {
-                            goodPkt = tmpGoodPath[a];
-                            ///////do poprawy
-                        }
-                    
-                    }
-
+                    game.draw.x = lastE.parent.x;
+                    game.draw.y = lastE.parent.y;
+                    game.draw.drawSquare("lightblue");
+                    lastE = lastE.parent;
+                    path++;
+                    pathEl.innerHTML = path;
                 }
-                if (goodPkt.isStartPosition == false) {
-                    goodPath.push(goodPkt);
-                    goodPath.forEach(e => {
-                        game.draw.x = e.x;
-                        game.draw.y = e.y;
-                        game.draw.drawSquare("lightblue");
-                    })
-                } else {
-                    clearInterval(goodPathInv)
-                    game.grid.forEach(e => {
-                        game.ctx.font = "10px Georgia";
-                        game.ctx.fillStyle = "black";
-                        game.ctx.fillText('g=' + e.g, e.x + 5, e.y + 30)
-                        game.ctx.fillText('h=' + e.h, e.x + 5, e.y + 20)
-                        game.ctx.fillText('f=' + e.f, e.x + 5, e.y + 10)
-                    })
-                }
-                tmpGoodPath = [];
-            }, 200);
+            }, speed);
         }
         if (openNode.length > 0) {
             tmp = getMin(openNode);
@@ -171,6 +139,7 @@ function calc() {
                 if (e.isEndPosition == true) {
                     win = true;
                     tmp = [];
+                    openNode = [];
                     clearInterval(searchInv)
                     shortestWay();
                 } else if (e.isStartPosition == false && e.isEndPosition == false && win == false) {
@@ -186,14 +155,27 @@ function calc() {
                 game.draw.y = e.y;
                 game.draw.drawSquare("orange");
                 start_pkt.push(e);
+                closeEl.innerHTML = start_pkt.length - 1;
             })
         } else {
-            console.log("GAME OVER")
             clearInterval(searchInv)
+            tmp = undefined;
+            openNode = [];
+            lose = true;
+            menu1.style.display = "none";
+            menu2.style.display = "none";
+            menu4.style.display = "none";
+            container_menu.style.width = 100 + "%";
+            menu3.style.display = "flex";
+            info.innerHTML = "Unfortunately there is no path!";
+            info.style.color = "red";
+        }
+        if (win == false && lose == false) {
+            openEl.innerHTML = openNode.length - tmp.length;
         }
         tmp = undefined;
         openNode = [];
-    }, 50);
+    }, speed);
 }
 
 function getMin(ar) {

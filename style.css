@@ -9,3 +9,84 @@
     position: absolute;
     overflow: hidden;
 }
+.menu{
+    width:400px;
+    height:150px;
+    position: absolute;
+    z-index: 2;
+    bottom:0;
+    display:flex;
+    background-color: rgba(124, 108, 95, 0.9);
+    color:white;
+}
+.menu_container{
+    width:300px;
+    height:100%;
+    display:flex;
+    flex-direction: column;
+}
+.BTN_cont{
+    width:100px;
+    height:100%;
+    display:flex;
+    flex-direction: column;
+}
+.BTN_cont div{
+    flex:1;
+    display:flex;
+}
+.BTN_cont div Button{
+    margin:auto;
+}
+.container-for-input{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+.container-for-input input,label{
+    margin:auto;
+}
+.cont{
+    flex:1;
+    display:flex;
+
+}
+.cont div{
+    flex:1;
+    margin:auto;
+
+}
+.cont span{
+    width:100px;
+margin:auto;
+}
+.ul_container{
+    display:flex;
+    justify-content: space-around;
+    width:200px;
+}
+.ul_container li{
+    list-style-type: none;
+    margin:auto;
+}
+.menu button{
+    background:none;
+    cursor: pointer;
+    border:none;
+    font-size:17px;
+    color: whitesmoke;
+}
+.menu  .search_button{
+    color:wheat;
+}
+.menu .active{
+    color:yellow;
+}
+.winOrLose{
+    flex:2;
+    display:none;
+    flex-direction: column;
+}
+.winOrLose span {
+    margin:auto;
+}
