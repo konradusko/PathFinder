@@ -5,7 +5,7 @@ startExist = false,
 endExist = false,
 path =0,
 allowToChange = true,
-speed = 130;
+speed = 90;
 
 class Game {
     constructor(square) {
